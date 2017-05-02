@@ -3,18 +3,19 @@
 require './tools/MySQLUtil.class.php';
 
 class BaseModel{
+	public static $db_util;
 	public static $conf = array(
 		"host" => "localhost",
 		"port" => "3306",
 		"user" => "root",
 		"pass" => "",
 		"charset" => "utf8",
-		"dbname" => "blogger_info",
+		"dbname" => "yellowsb_blog",
 			
 	);
-	public $db_util;
+	
 	
 	function __construct(){
-		$this->$db_util = MySQLUtil::getDB(self::$conf);
+		self::$db_util = MySQLUtil::getDB(self::$conf);
 	}
 }

@@ -1,6 +1,6 @@
 <?php
  class MySQLUtil{
- 	
+ 	private $mysqli = null;
  	private $link = null;	//用于存储连接之后的资源！
  	//设定6个私有的属性，以存储6个对应的常规连接信息
  	private $host;
@@ -18,7 +18,7 @@
 		$this->host = $conf['host'] ? $conf['host'] : "localhost";
 		$this->port = $conf['port'] ? $conf['port'] : "3306";
 		$this->user = $conf['user'] ? $conf['user'] : "root";
-		$this->pass = $conf['pass'] ? $conf['pass'] : "123";
+		$this->pass = $conf['pass'] ? $conf['pass'] : "";
 		$this->charset = $conf['charset'] ? $conf['charset'] : "utf8";
 		$this->dbname = $conf['dbname'] ? $conf['dbname'] : "blogger_info";
 		
@@ -36,8 +36,7 @@
 	}
 	//可以单独来修改要使用的连接编码
 	function select_charset( $charset ){
-		//mysql_query("set names $charset", $this->link);
-		$this->query( "set names $charset" );	//同样用这一行代替上一行，更专业！
+		$this->query( "set names $charset" );
 		$this->charset = $charset;	//如果更换了编码，也得保存起来
 	}
 	function close(){
@@ -48,7 +47,8 @@
 	//如果失败，就处理错误，然后结束；
 	//如果成功，就“直接返回”，对直接结果不做任何处理
 	private function query( $sql ){
-		$result = mysql_query($sql, $this->link);
+// 		$result = mysql_query($sql, $this->link);
+		$result = $this->mysqli->query($sql);
 		if( $result === false ){
 			echo "<p>发生错误了，详细请参考：";
 			echo "<br />错误语句：" . $sql ;
@@ -95,14 +95,13 @@
 	//此select语句类似这样： select *  from XXX  where id = 8;
 	function getOneRow( $sql ){
 		$result = $this->query($sql);
-
 		//这里才准备返回一维数组
 		//此时，$result 是“结果集”（数据集）
-		if( $rec = mysql_fetch_assoc ( $result ) ){
+		$rec = mysqli_fetch_assoc($result)or die(mysql_error());
+		if($rec){
 			return $rec;	//如果有数据，则返回该行
 		}
 		return array();		//否则，返回空数组
-				
 	}
 	//该方法可以返回一行一列数据（实际是一个标量数据）；
 	//此select语句类似这样： select age  from XXX  where id = 8;
@@ -125,11 +124,11 @@
 		$this->connect();
 	}
    
-   public function connect(){     	
-   	 $this->link = mysql_connect("{$this->host}:{$this->port}","{$this->user}","{$this->pass}") or die('数据库服务器连接失败！');
+   public function connect(){
+   	 $this->mysqli = new mysqli($this->host, $this->user, "", $this->dbname);
+//   $this->link = mysql_connect("{$this->host}:{$this->port}","{$this->user}","{$this->pass}") or die('数据库服务器连接失败！');
    	 $this->select_charset($this->charset);
    	 $this->select_database($this->dbname);
-   
    }
    
  }

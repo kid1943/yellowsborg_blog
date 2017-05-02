@@ -4,7 +4,7 @@
   $user_model = new UserInfoModel();
   $result = $user_model->get_blogger_name();
   if ($result) {
-  	 echo $result;
+  	 var_dump($result);
   }else {
   	 echo "查询失败";
   }
