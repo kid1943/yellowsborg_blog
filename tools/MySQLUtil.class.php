@@ -1,5 +1,5 @@
 <?php
- class MySQLDB{
+ class MySQLUtil{
  	
  	private $link = null;	//用于存储连接之后的资源！
  	//设定6个私有的属性，以存储6个对应的常规连接信息
@@ -68,7 +68,7 @@
 	}
 	
 	//单例化第3步：设定一个静态方法，判断是否需要new一个对象，并返回
-	static function GetDB( $conf1 ){
+	public static function getDB( $conf1 ){
 		//if( empty( self::$instance ) ) {改造为以下更为严谨的写法：
 		if( !(self::$instance instanceof self) ){//如果不是自身的实例
 			self::$instance = new self( $conf1 );
@@ -79,7 +79,7 @@
 	//该方法可以执行一条返回多行数据的select语句，
 	//并将数据以“二维数组”的形式返回
 	//此select语句类似这样： select *  from XXX  where id < 8;
-	function GetRows( $sql ){
+	function getRows( $sql ){
 		$result = $this->query($sql);
 
 		//这里才准备返回二维数组
@@ -93,7 +93,7 @@
 	}
 	//该方法可以返回一行多列数据（实际是一维数组）；
 	//此select语句类似这样： select *  from XXX  where id = 8;
-	function GetOneRow( $sql ){
+	function getOneRow( $sql ){
 		$result = $this->query($sql);
 
 		//这里才准备返回一维数组
@@ -106,7 +106,7 @@
 	}
 	//该方法可以返回一行一列数据（实际是一个标量数据）；
 	//此select语句类似这样： select age  from XXX  where id = 8;
-	function GetOneData( $sql ){
+	function getOneData( $sql ){
 		$result = $this->query($sql);
 
 		//这里才准备返回一个
