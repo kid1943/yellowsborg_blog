@@ -1,6 +1,6 @@
 <?php
 require "BaseController.class.php";
-class BlogController extends BaseController{
+class BlogController.class extends BaseController{
 	
 	public function indexAction(){
 		require './view/blog_index.html';
