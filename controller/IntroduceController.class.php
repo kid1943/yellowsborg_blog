@@ -6,7 +6,7 @@ class IntroduceController{
 		
 	}
 	
-	function index(){		
+	function indexAction(){		
 		require './view/index.html';		
 	}
 	

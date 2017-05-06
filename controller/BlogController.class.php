@@ -1,9 +1,10 @@
 <?php
 require "BaseController.class.php";
-class BlogController.class extends BaseController{
+class BlogController extends BaseController{
 	
 	public function indexAction(){
-		require './view/blog_index.html';
+// 		require './view/blog_index.html';
+        echo "funck youuuuuuuuuuuuu"; 
 	}
 	
     public function index0Action(){
