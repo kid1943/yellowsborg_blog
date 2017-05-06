@@ -1,6 +1,6 @@
 <?php
-
-class BlogController{
+require "./BaseController.class.php";
+class BlogController extends BaseController{
 	
 	public function indexAction(){
 		include '../view/blog_index.html';
